@@ -1,4 +1,4 @@
-# Registration Service
+# Radar Service
 ## Under development... 🚀
 ### Architecture
 ![Architecture](assets/Architecture.png)

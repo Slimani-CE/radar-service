@@ -1,6 +1,7 @@
 package com.mustaphaslimani.radarservice.entities;
 
 
+import com.mustaphaslimani.radarservice.model.Infraction;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,4 +19,6 @@ public class Radar {
     private Double maxSpeed;
     private Double longitude;
     private Double latitude;
+    @Transient
+    private List<Infraction> infractions;
 }

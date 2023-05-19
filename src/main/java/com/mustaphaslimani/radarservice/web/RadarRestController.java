@@ -1,25 +1,44 @@
 package com.mustaphaslimani.radarservice.web;
 
 import com.mustaphaslimani.radarservice.entities.Radar;
+import com.mustaphaslimani.radarservice.feign.InfractionFeignClient;
+import com.mustaphaslimani.radarservice.feign.RegistrationFeignClient;
+import com.mustaphaslimani.radarservice.model.Infraction;
+import com.mustaphaslimani.radarservice.model.Vehicle;
 import com.mustaphaslimani.radarservice.repositories.RadarRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/web")
 public class RadarRestController {
     private final RadarRepository radarRepository;
+    private final RegistrationFeignClient registrationFeignClient;
+    private final InfractionFeignClient infractionFeignClient;
 
-    public RadarRestController(RadarRepository radarRepository) {
+    public RadarRestController(RadarRepository radarRepository, RegistrationFeignClient registrationFeignClient, InfractionFeignClient infractionFeignClient) {
         this.radarRepository = radarRepository;
+        this.registrationFeignClient = registrationFeignClient;
+        this.infractionFeignClient = infractionFeignClient;
     }
 
     // Simple CRUD operations
     // - Read all
     @GetMapping("/radars")
     public List<Radar> getRadars(){
-        return radarRepository.findAll();
+        List<Radar> radars = radarRepository.findAll();
+        for(Radar radar : radars){
+
+            List<Infraction> infractions = infractionFeignClient.getInfractionsByRadarId(radar.getId());
+            for(Infraction infraction : infractions){
+                Vehicle vehicle = registrationFeignClient.getVehicle(infraction.getVehicleId());
+                infraction.setVehicle(vehicle);
+            }
+            radar.setInfractions(infractions);
+        }
+        return radars;
     }
 
     // - Read by id
@@ -28,7 +47,7 @@ public class RadarRestController {
         return radarRepository.findById(id).get();
     }
 
-    // - Save
+    // - Save radar
     @PostMapping("/radars")
     public Radar saveRadar(@RequestBody Radar radar){
         return radarRepository.save(radar);
@@ -57,5 +76,32 @@ public class RadarRestController {
             return true;
         }
         return false;
+    }
+
+    // Add speed infractions
+    @PostMapping("/radars/{id}/vehicles/{vehicleId}")
+    public Infraction addSpeedInfraction(@PathVariable("id") Long id, @PathVariable("vehicleId") Long vehicleId, @RequestParam("speed") Double speed){
+        if(radarRepository.existsById(id) && registrationFeignClient.isVehicleExistsById(vehicleId)){
+            Radar radar = radarRepository.findById(id).get();
+            Vehicle vehicle = registrationFeignClient.getVehicle(vehicleId);
+            if (speed > radar.getMaxSpeed()){
+                Infraction infraction = Infraction.builder()
+                        .id(null)
+                        .date(new Date().toString())
+                        .vehicleSpeed(speed)
+                        .radarMaxSpeed(radar.getMaxSpeed())
+                        .fineAmount((speed - radar.getMaxSpeed()) * 100)
+                        .radarId(radar.getId())
+                        .vehicleId(vehicle.getId())
+                        .vehicle(vehicle)
+                        .radar(radar)
+                        .build();
+                infraction = infractionFeignClient.saveInfraction(infraction);
+                infraction.setVehicle(vehicle);
+                infraction.setRadar(radar);
+                return infraction;
+            }
+        }
+        return null;
     }
 }
