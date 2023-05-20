@@ -65,6 +65,12 @@ public class RadarGrpcService extends RadarServiceGrpc.RadarServiceImplBase {
                                 .setRegNumber(infraction.getVehicle().getRegNumber())
                                 .setBrand(infraction.getVehicle().getBrand())
                                 .setModel(infraction.getVehicle().getModel())
+                                .setOwner(RadarOuterClass.Owner.newBuilder()
+                                        .setId(infraction.getVehicle().getOwner().getId())
+                                        .setName(infraction.getVehicle().getOwner().getName())
+                                        .setBirthDate(infraction.getVehicle().getOwner().getBirthDate())
+                                        .setEmail(infraction.getVehicle().getOwner().getEmail())
+                                        .build())
                                 .build())
                         .setRadar(RadarOuterClass.Radar.newBuilder()
                                 .setId(infraction.getRadar().getId())
@@ -75,9 +81,9 @@ public class RadarGrpcService extends RadarServiceGrpc.RadarServiceImplBase {
                         .build();
 
                 responseObserver.onNext(response);
-                responseObserver.onCompleted();
             }
         }
-
+        else responseObserver.onNext(null);
+        responseObserver.onCompleted();
     }
 }

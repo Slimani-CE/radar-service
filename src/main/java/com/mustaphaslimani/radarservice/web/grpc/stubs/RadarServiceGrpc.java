@@ -1,11 +1,18 @@
 package com.mustaphaslimani.radarservice.web.grpc.stubs;
 
 import static io.grpc.MethodDescriptor.generateFullMethodName;
+import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
 import static io.grpc.stub.ClientCalls.asyncUnaryCall;
 import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
 import static io.grpc.stub.ClientCalls.blockingUnaryCall;
 import static io.grpc.stub.ClientCalls.futureUnaryCall;
+import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
 import static io.grpc.stub.ServerCalls.asyncUnaryCall;
+import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
@@ -20,30 +27,30 @@ public final class RadarServiceGrpc {
   public static final String SERVICE_NAME = "RadarService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<RadarOuterClass.DetectRequest,
-      RadarOuterClass.Infraction> getDetectInfractionMethod;
+  private static volatile io.grpc.MethodDescriptor<com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.DetectRequest,
+      com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.Infraction> getDetectInfractionMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "DetectInfraction",
-      requestType = RadarOuterClass.DetectRequest.class,
-      responseType = RadarOuterClass.Infraction.class,
+      requestType = com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.DetectRequest.class,
+      responseType = com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.Infraction.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<RadarOuterClass.DetectRequest,
-      RadarOuterClass.Infraction> getDetectInfractionMethod() {
-    io.grpc.MethodDescriptor<RadarOuterClass.DetectRequest, RadarOuterClass.Infraction> getDetectInfractionMethod;
+  public static io.grpc.MethodDescriptor<com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.DetectRequest,
+      com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.Infraction> getDetectInfractionMethod() {
+    io.grpc.MethodDescriptor<com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.DetectRequest, com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.Infraction> getDetectInfractionMethod;
     if ((getDetectInfractionMethod = RadarServiceGrpc.getDetectInfractionMethod) == null) {
       synchronized (RadarServiceGrpc.class) {
         if ((getDetectInfractionMethod = RadarServiceGrpc.getDetectInfractionMethod) == null) {
           RadarServiceGrpc.getDetectInfractionMethod = getDetectInfractionMethod = 
-              io.grpc.MethodDescriptor.<RadarOuterClass.DetectRequest, RadarOuterClass.Infraction>newBuilder()
+              io.grpc.MethodDescriptor.<com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.DetectRequest, com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.Infraction>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
                   "RadarService", "DetectInfraction"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  RadarOuterClass.DetectRequest.getDefaultInstance()))
+                  com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.DetectRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  RadarOuterClass.Infraction.getDefaultInstance()))
+                  com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.Infraction.getDefaultInstance()))
                   .setSchemaDescriptor(new RadarServiceMethodDescriptorSupplier("DetectInfraction"))
                   .build();
           }
@@ -81,8 +88,8 @@ public final class RadarServiceGrpc {
 
     /**
      */
-    public void detectInfraction(RadarOuterClass.DetectRequest request,
-                                 io.grpc.stub.StreamObserver<RadarOuterClass.Infraction> responseObserver) {
+    public void detectInfraction(com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.DetectRequest request,
+        io.grpc.stub.StreamObserver<com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.Infraction> responseObserver) {
       asyncUnimplementedUnaryCall(getDetectInfractionMethod(), responseObserver);
     }
 
@@ -92,8 +99,8 @@ public final class RadarServiceGrpc {
             getDetectInfractionMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                RadarOuterClass.DetectRequest,
-                RadarOuterClass.Infraction>(
+                com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.DetectRequest,
+                com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.Infraction>(
                   this, METHODID_DETECT_INFRACTION)))
           .build();
     }
@@ -119,8 +126,8 @@ public final class RadarServiceGrpc {
 
     /**
      */
-    public void detectInfraction(RadarOuterClass.DetectRequest request,
-                                 io.grpc.stub.StreamObserver<RadarOuterClass.Infraction> responseObserver) {
+    public void detectInfraction(com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.DetectRequest request,
+        io.grpc.stub.StreamObserver<com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.Infraction> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getDetectInfractionMethod(), getCallOptions()), request, responseObserver);
     }
@@ -146,7 +153,7 @@ public final class RadarServiceGrpc {
 
     /**
      */
-    public RadarOuterClass.Infraction detectInfraction(RadarOuterClass.DetectRequest request) {
+    public com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.Infraction detectInfraction(com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.DetectRequest request) {
       return blockingUnaryCall(
           getChannel(), getDetectInfractionMethod(), getCallOptions(), request);
     }
@@ -172,8 +179,8 @@ public final class RadarServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<RadarOuterClass.Infraction> detectInfraction(
-        RadarOuterClass.DetectRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.Infraction> detectInfraction(
+        com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.DetectRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getDetectInfractionMethod(), getCallOptions()), request);
     }
@@ -199,8 +206,8 @@ public final class RadarServiceGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_DETECT_INFRACTION:
-          serviceImpl.detectInfraction((RadarOuterClass.DetectRequest) request,
-              (io.grpc.stub.StreamObserver<RadarOuterClass.Infraction>) responseObserver);
+          serviceImpl.detectInfraction((com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.DetectRequest) request,
+              (io.grpc.stub.StreamObserver<com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.Infraction>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -224,7 +231,7 @@ public final class RadarServiceGrpc {
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return RadarOuterClass.getDescriptor();
+      return com.mustaphaslimani.radarservice.web.grpc.stubs.RadarOuterClass.getDescriptor();
     }
 
     @java.lang.Override
