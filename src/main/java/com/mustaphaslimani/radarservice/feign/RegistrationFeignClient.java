@@ -6,6 +6,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+
 @FeignClient(name = "REGISTRATION-SERVICE")
 public interface RegistrationFeignClient {
     // Check if owner exists
@@ -23,4 +25,8 @@ public interface RegistrationFeignClient {
     // Get vehicle
     @GetMapping("/web/vehicles/{id}")
     Vehicle getVehicle(@PathVariable("id") Long id);
+
+    // - Get all vehicles
+    @GetMapping("/web/vehicles")
+    List<Vehicle> getVehicles();
 }

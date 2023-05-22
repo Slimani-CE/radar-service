@@ -44,7 +44,17 @@ public class RadarRestController {
     // - Read by id
     @GetMapping("/radars/{id}")
     public Radar getRadar(@PathVariable("id") Long id){
-        return radarRepository.findById(id).get();
+        if(radarRepository.existsById(id)) {
+            Radar radar = radarRepository.findById(id).get();
+            List<Infraction> infractions = infractionFeignClient.getInfractionsByRadarId(radar.getId());
+            for (Infraction infraction : infractions) {
+                Vehicle vehicle = registrationFeignClient.getVehicle(infraction.getVehicleId());
+                infraction.setVehicle(vehicle);
+            }
+            radar.setInfractions(infractions);
+            return radar;
+        }
+        else return null;
     }
 
     // - Save radar
@@ -103,5 +113,23 @@ public class RadarRestController {
             }
         }
         return null;
+    }
+
+    // - Get full infractions
+    @GetMapping("/infractions/full")
+    public List<Infraction> getInfractions(){
+        List<Infraction> infractions = infractionFeignClient.getInfractions();
+        for(Infraction infraction : infractions){
+            Vehicle vehicle = registrationFeignClient.getVehicle(infraction.getVehicleId());
+            infraction.setVehicle(vehicle);
+        }
+        return infractions;
+    }
+
+    // - Get full vehicles
+    @GetMapping("/vehicles/full")
+    public List<Vehicle> getVehicles(){
+        List<Vehicle> vehicles = registrationFeignClient.getVehicles();
+        return vehicles;
     }
 }

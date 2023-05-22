@@ -13,6 +13,10 @@ import java.util.List;
 @FeignClient(name = "INFRACTION-SERVICE")
 public interface InfractionFeignClient {
 
+    // Get all infractions
+    @GetMapping("/web/infractions")
+    List<Infraction> getInfractions();
+
     // Get infraction
     @GetMapping("/web/infractions/{id}")
     Infraction getInfraction(@PathVariable("id") Long id);
